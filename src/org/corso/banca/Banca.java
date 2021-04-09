@@ -10,6 +10,13 @@ public class Banca {
         contiCorrenti = new ContoCorrente[10];
     }
 
+    /**
+     * 
+     * @param nome
+     * @param cognome
+     * @param codiceFiscale
+     * @param valoreIniziale
+     */
     public void apriContoCorrente(String nome, String cognome, String codiceFiscale, int valoreIniziale) {
         Cliente proprietario = new Cliente(nome, cognome, codiceFiscale);
         ContoCorrente conto = new ContoCorrente("" + prossimoNumeroContoCorrente, 1000, valoreIniziale, proprietario);

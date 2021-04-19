@@ -1,6 +1,10 @@
 package org.corso.banca;
 
 import junit.framework.TestCase;
+import org.corso.banca.factories.ContoCorrenteFactory;
+import org.corso.banca.models.*;
+import org.corso.banca.services.BancaService;
+import org.corso.banca.services.SendEmailService;
 import org.corso.eccezioni.ContoCorrenteErratoException;
 import org.corso.eccezioni.ErroreInvioEmailException;
 import org.junit.Before;

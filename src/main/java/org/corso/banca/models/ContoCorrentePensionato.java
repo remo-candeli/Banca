@@ -1,4 +1,4 @@
-package org.corso.banca;
+package org.corso.banca.models;
 
 public class ContoCorrentePensionato extends ContoCorrente {
 

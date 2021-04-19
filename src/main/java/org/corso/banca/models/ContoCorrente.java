@@ -1,6 +1,7 @@
-package org.corso.banca;
+package org.corso.banca.models;
 
 
+import org.corso.banca.Gratificabile;
 import org.corso.eccezioni.MancanzaFondiException;
 
 public abstract class ContoCorrente implements Gratificabile {

@@ -1,4 +1,4 @@
-package org.corso.banca;
+package org.corso.banca.models;
 
 import java.util.HashMap;
 import java.util.Map;

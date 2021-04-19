@@ -1,4 +1,6 @@
-package org.corso.banca;
+package org.corso.banca.factories;
+
+import org.corso.banca.models.*;
 
 import java.time.LocalDate;
 import java.time.Period;

@@ -1,5 +1,8 @@
 package org.corso.banca;
 
+import org.corso.banca.models.Banca;
+import org.corso.banca.models.ContoCorrente;
+import org.corso.banca.services.BancaService;
 import org.corso.eccezioni.ErroreInvioEmailException;
 
 public class Main {

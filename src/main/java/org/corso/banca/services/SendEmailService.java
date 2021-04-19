@@ -1,4 +1,4 @@
-package org.corso.banca;
+package org.corso.banca.services;
 
 import org.corso.eccezioni.ErroreInvioEmailException;
 

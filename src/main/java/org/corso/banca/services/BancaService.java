@@ -1,6 +1,10 @@
-package org.corso.banca;
+package org.corso.banca.services;
 
 
+import org.corso.banca.factories.ContoCorrenteFactory;
+import org.corso.banca.models.Banca;
+import org.corso.banca.models.Cliente;
+import org.corso.banca.models.ContoCorrente;
 import org.corso.eccezioni.ContoCorrenteErratoException;
 import org.corso.eccezioni.ErroreInvioEmailException;
 import org.corso.eccezioni.MancanzaFondiException;
@@ -25,11 +29,21 @@ public class BancaService {
      * @param valoreIniziale
      */
     public ContoCorrente apriContoCorrente(String nome, String cognome, String codiceFiscale, String indirizzoEmail, int valoreIniziale) throws ErroreInvioEmailException {
+        // l´istanza di cliente si potrebbe creare cosi...(modo classico)
         Cliente proprietario = new Cliente(nome, cognome, codiceFiscale, indirizzoEmail);
+
+        // ...o meglio cosi: utilizzando un "builder" ovvero una classe preposta a costruire un´altra classe.
+        // solitamente il Builder é una classe interna (inner class) della classe modello.
+        proprietario = new Cliente.ClienteBuilder(codiceFiscale).cognome(cognome).perInviareEmail(indirizzoEmail).build();
+
+        // ...oppure si potrebbe creare il cliente in questo modo
+        proprietario = new Cliente.ClienteBuilder(codiceFiscale).perInviareEmail(indirizzoEmail).build();
+
         ContoCorrente conto = ContoCorrenteFactory.getInstance(valoreIniziale, proprietario);
         banca.getContiCorrenti().put(conto.getnContoCorrente(), conto);
         if (banca.isNotificaCliente())
             sendEmailService.sendEmail(indirizzoEmail);
+
         return conto;
     }
 

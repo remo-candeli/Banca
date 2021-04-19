@@ -1,4 +1,4 @@
-package org.corso.banca;
+package org.corso.banca.models;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -12,7 +12,11 @@ public class Cliente {
     private String indirizzoEmail;
 
 
-    public Cliente(){
+    private Cliente(){
+
+    }
+
+    private Cliente(ClienteBuilder builder) {
 
     }
 
@@ -103,5 +107,45 @@ public class Cliente {
     @Override
     public int hashCode() {
         return Objects.hash(codiceFiscale);
+    }
+
+
+    public static class ClienteBuilder {
+        private String nome;
+        private String cognome;
+        private String codiceFiscale;
+        private String indirizzoEmail;
+
+        public ClienteBuilder(String codiceFiscale) {
+            this.codiceFiscale = codiceFiscale;
+        }
+
+        public ClienteBuilder datiGenerici(String nome, String cognome, String codiceFiscale) {
+            this.nome = nome;
+            this.cognome = cognome;
+            this.codiceFiscale = codiceFiscale;
+            return this;
+        }
+
+        public ClienteBuilder nome(String nome) {
+            this.nome = nome;
+            return this;
+        }
+
+        public ClienteBuilder cognome(String cognome) {
+            this.cognome = cognome;
+            return this;
+        }
+
+
+        public ClienteBuilder perInviareEmail(String indirizzoEmail) {
+            this.indirizzoEmail = indirizzoEmail;
+            return this;
+        }
+
+        public Cliente build() {
+            Cliente cliente = new Cliente(this.nome, this.cognome, this.codiceFiscale, this.indirizzoEmail);
+            return cliente;
+        }
     }
 }

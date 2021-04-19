@@ -1,6 +1,7 @@
 package org.corso.banca;
 
 import junit.framework.TestCase;
+import org.corso.banca.services.SendEmailService;
 import org.corso.eccezioni.ErroreInvioEmailException;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -45,4 +45,8 @@ public class Banca {
     public void setNotificaCliente(boolean notificaCliente) {
         this.notificaCliente = notificaCliente;
     }
+
+    public ContoCorrente getContoCorrenteById(String nContoCorrente) {
+        return contiCorrenti.get(nContoCorrente);
+    }
 }

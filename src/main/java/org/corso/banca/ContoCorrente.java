@@ -42,7 +42,7 @@ public abstract class ContoCorrente implements Gratificabile {
     }
 
     public void prelievo(int importo) throws MancanzaFondiException {
-        if (saldoCorrente - importo >= soglia) {
+        if (Math.abs(saldoCorrente - importo) <= soglia) {
             this.saldoCorrente -= importo;
         }else{
             throw new MancanzaFondiException("Il Cliente " + this.proprietario.getCognome() + " ha provato a prelevare " +  importo);
@@ -65,8 +65,5 @@ public abstract class ContoCorrente implements Gratificabile {
     public void setProprietario(Cliente proprietario) {
         this.proprietario = proprietario;
     }
-
-
-
 
 }

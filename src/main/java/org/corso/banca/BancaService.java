@@ -1,6 +1,7 @@
 package org.corso.banca;
 
 
+import org.corso.eccezioni.ContoCorrenteErratoException;
 import org.corso.eccezioni.ErroreInvioEmailException;
 import org.corso.eccezioni.MancanzaFondiException;
 
@@ -33,23 +34,33 @@ public class BancaService {
     }
 
 
-    public void operaPrelievo(int importo, String nContoCorrente) {
-        ContoCorrente contoCorrente = banca.getContiCorrenti().get(nContoCorrente);
-        if (contoCorrente!=null) {
-            try {
-                contoCorrente.prelievo(importo);
-            } catch (MancanzaFondiException e) {
-                System.err.println(e.getMessage());
-            }
+    /**
+     * Opera il prelievo di una somma importo richiesta su un preciso nr di cc.
+     * Se il saldo corrente supera il valore di soglia viene sollevata una eccezione per mancanza di fondi.
+     * @param importo
+     * @param nContoCorrente
+     */
+    public void operaPrelievo(int importo, String nContoCorrente) throws ContoCorrenteErratoException {
+        try {
+            ContoCorrente contoCorrente = banca.getContoCorrenteById(nContoCorrente);
+
+            // se il cc é nullo vuol dire che non é stato trovato tra quelli attivi della banca
+            if (contoCorrente == null)
+                throw new ContoCorrenteErratoException("Il conto corrente con id " + nContoCorrente + " non é corretto");
+
+            contoCorrente.prelievo(importo);
+
+        } catch (MancanzaFondiException e) {
+            e.printStackTrace();
         }
     }
-    
 
-    public void operaVersamento(int importo, String nContoCorrente) {
+    public void operaVersamento(int importo, String nContoCorrente) throws ContoCorrenteErratoException {
         ContoCorrente contoCorrente = banca.getContiCorrenti().get(nContoCorrente);
-        if (contoCorrente!=null) {
-                contoCorrente.versamento(importo);
-        }
+        if (contoCorrente==null)
+            throw new ContoCorrenteErratoException("Il conto corrente con id " + nContoCorrente + " non é corretto");
+
+        contoCorrente.versamento(importo);
     }
 
 
@@ -63,5 +74,9 @@ public class BancaService {
                 System.out.println("; saldo " + cc.getSaldoCorrente());
             }
         }
+    }
+
+    public Banca getBanca() {
+        return banca;
     }
 }

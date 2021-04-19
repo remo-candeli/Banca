@@ -1,6 +1,7 @@
 package org.corso.banca;
 
 import junit.framework.TestCase;
+import org.corso.eccezioni.ContoCorrenteErratoException;
 import org.corso.eccezioni.ErroreInvioEmailException;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +36,6 @@ public class BancaServiceTest extends TestCase {
         ContoCorrente cc = new ContoCorrenteRisparmio();
         cc.setnContoCorrente("cc1");
         cc.setSaldoIniziale(500);
-        cc.setSoglia(5000);
         cc.setProprietario(clienteValido);
         try (MockedStatic<ContoCorrenteFactory> theMock = Mockito.mockStatic(ContoCorrenteFactory.class)) {
             // x = f(x)  ==== ContoCorrente cc = ContoCorrenteFactory.getInstance()
@@ -75,6 +75,25 @@ public class BancaServiceTest extends TestCase {
         Cliente clienteValidoEta75 = new Cliente("Remo", "Candeli", "CNDRME38R11H501G", "remo.candeli@gmail.com");
         ContoCorrente cc = ContoCorrenteFactory.getInstance(500, clienteValidoEta75);
         assertTrue(cc instanceof ContoCorrentePensionato);
+    }
+
+
+    @Test(expected = ContoCorrenteErratoException.class)
+    public void idContoCorrenteNullo_operaVersamento() throws ContoCorrenteErratoException{
+        bancaService.operaVersamento(200, null);
+    }
+
+    @Test
+    public void prelievoNonEseguitoSeSuperaDisponibilitaFondi_operaPrelievo() throws ErroreInvioEmailException, ContoCorrenteErratoException {
+        // in realtá sarebbe piú corretto effettuare un mock del metodo apriContoCorrente poiché oggetto del nostro test (detto anche SUT: system under Test)
+        // é il metodo operaPrelievo. Nulla quindi dovrebbe essere corrotto da questo obiettivo.
+        // Se, dunque, il metodo "apriContoCorrente" fallisse non si otterrebbe un risultato chiaro del test.
+        // Ma ci toccherebbe fare delle spy...soprassediamo.
+        ContoCorrente cc = bancaService.apriContoCorrente("Remo", "Candeli", "CNDRME70R11H501G", "remo.candeli@gmail.com", 500);
+
+        int saldoCorrentePrimaDiPrelievo = cc.getSaldoCorrente();
+        bancaService.operaPrelievo(1500, cc.getnContoCorrente());
+        assertTrue((saldoCorrentePrimaDiPrelievo-1500)==cc.getSaldoCorrente());
     }
 
 }

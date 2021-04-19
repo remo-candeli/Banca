@@ -23,6 +23,10 @@ public class BancaService {
      * Apre il conto corrente ad un cliente ed invia una email al cliente solo se la banca lo prevede e solo se il cliente
      * fornisce un indirizzo email.
      *
+     * Nota. La versione migliorata di questo metodo dovrebbe prevedere la seguente firma:
+     *       ContoCorrente apriContoCorrente(Cliente cliente, int valoreIniziale) throws ErroreInvioEmailException
+     *       piú coerente.
+     *
      * @param nome
      * @param cognome
      * @param codiceFiscale
@@ -36,8 +40,8 @@ public class BancaService {
         // solitamente il Builder é una classe interna (inner class) della classe modello.
         proprietario = new Cliente.ClienteBuilder(codiceFiscale).cognome(cognome).perInviareEmail(indirizzoEmail).build();
 
-        // ...oppure si potrebbe creare il cliente in questo modo
-        proprietario = new Cliente.ClienteBuilder(codiceFiscale).perInviareEmail(indirizzoEmail).build();
+        // ...oppure si potrebbe creare il cliente in questo modo specifico nel contesto di una banca
+        proprietario = new Cliente.ClienteBuilder(codiceFiscale).perGestioneBanche(cognome, indirizzoEmail).build();
 
         ContoCorrente conto = ContoCorrenteFactory.getInstance(valoreIniziale, proprietario);
         banca.getContiCorrenti().put(conto.getnContoCorrente(), conto);
@@ -46,6 +50,8 @@ public class BancaService {
 
         return conto;
     }
+
+
 
 
     /**

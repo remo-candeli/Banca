@@ -21,6 +21,7 @@ public class Cliente {
     }
 
     /**
+     * volutamente lasciato public per dimostrare la dicotomia con il builder
      *
      * @param nome
      * @param cognome
@@ -33,6 +34,7 @@ public class Cliente {
         this.dataNascita = getDataDiNascitaDaCF(codiceFiscale);
         this.indirizzoEmail = indirizzoEmail;
     }
+
 
     // CNDRME70R11H501G
     private LocalDate getDataDiNascitaDaCF(String codiceFiscale){
@@ -67,33 +69,17 @@ public class Cliente {
     public String getNome() {
         return nome;
     }
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
     public String getCognome() {
         return cognome;
-    }
-    public void setCognome(String cognome) {
-        this.cognome = cognome;
     }
     public String getCodiceFiscale() {
         return codiceFiscale;
     }
-    public void setCodicefiscale(String codiceFiscale) {
-        this.codiceFiscale = codiceFiscale;
-    }
-
-
     public LocalDate getDataNascita() {
         return dataNascita;
     }
-
     public String getIndirizzoEmail() {
         return indirizzoEmail;
-    }
-
-    public void setIndirizzoEmail(String indirizzoEmail) {
-        this.indirizzoEmail = indirizzoEmail;
     }
 
     @Override
@@ -110,6 +96,13 @@ public class Cliente {
     }
 
 
+    /**
+     * descrizione:
+     *      builder Pattern di Cliente
+     * obbiettivo:
+     *      separa la costruzione di un oggetto complesso dalla sua rappresentazione, cosicché il processo di costruzione
+     *      stesso possa creare diverse rappresentazioni
+     */
     public static class ClienteBuilder {
         private String nome;
         private String cognome;
@@ -119,6 +112,13 @@ public class Cliente {
         public ClienteBuilder(String codiceFiscale) {
             this.codiceFiscale = codiceFiscale;
         }
+
+        public ClienteBuilder perGestioneBanche(String cognome, String indirizzoEmail) {
+            this.indirizzoEmail = indirizzoEmail;
+            this.cognome = cognome;
+            return this;
+        }
+
 
         public ClienteBuilder datiGenerici(String nome, String cognome, String codiceFiscale) {
             this.nome = nome;
@@ -143,8 +143,12 @@ public class Cliente {
             return this;
         }
 
+
         public Cliente build() {
             Cliente cliente = new Cliente(this.nome, this.cognome, this.codiceFiscale, this.indirizzoEmail);
+            // qui si potrebbero mettere delle chiamate a metodi privati, in questa classe, che magari
+            // effettuano controlli di validitá sulle combinazioni adottate in modo da generare
+            // istanze di cliente sempre coerenti.
             return cliente;
         }
     }

@@ -1,6 +1,8 @@
 package org.corso.banca;
 
 
+import org.corso.eccezioni.MancanzaFondiException;
+
 public abstract class ContoCorrente implements Gratificabile {
 
     private String nContoCorrente;

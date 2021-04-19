@@ -2,6 +2,7 @@ package org.corso.banca;
 
 
 import org.corso.eccezioni.ErroreInvioEmailException;
+import org.corso.eccezioni.MancanzaFondiException;
 
 public class BancaService {
 
@@ -14,21 +15,20 @@ public class BancaService {
     }
 
     /**
-     * 
+     * Apre il conto corrente ad un cliente ed invia una email al cliente solo se la banca lo prevede e solo se il cliente
+     * fornisce un indirizzo email.
+     *
      * @param nome
      * @param cognome
      * @param codiceFiscale
      * @param valoreIniziale
      */
-    public ContoCorrente apriContoCorrente(String nome, String cognome, String codiceFiscale, String indirizzoEmail, int valoreIniziale) {
+    public ContoCorrente apriContoCorrente(String nome, String cognome, String codiceFiscale, String indirizzoEmail, int valoreIniziale) throws ErroreInvioEmailException {
         Cliente proprietario = new Cliente(nome, cognome, codiceFiscale, indirizzoEmail);
         ContoCorrente conto = ContoCorrenteFactory.getInstance(valoreIniziale, proprietario);
         banca.getContiCorrenti().put(conto.getnContoCorrente(), conto);
-        try {
+        if (banca.isNotificaCliente())
             sendEmailService.sendEmail(indirizzoEmail);
-        } catch (ErroreInvioEmailException e) {
-            e.printStackTrace();
-        }
         return conto;
     }
 

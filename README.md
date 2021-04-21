@@ -15,10 +15,10 @@ Seguire le indicazioni espresse in questo link: https://www.netcwork.it/come-cre
 
 ### Assegnazione di una Variabile di ambiente linux
 
-da linea di comandi
-**sudo nano /etc/environment**
+da linea di comandi  
+**sudo nano /etc/environment**  
 aggiungere la seguente riga
-**emailPassword = [password-gmail]**
-(dove [password-gmail] é la volstra passsord
-salvare con CTRL + X e confermare le modifiche.
-Riavviare il pc.
+**emailPassword = [password-gmail]**  
+(dove [password-gmail] é la volstra passsord.  
+salvare con CTRL + X e confermare le modifiche.  
+Riavviare il pc.  

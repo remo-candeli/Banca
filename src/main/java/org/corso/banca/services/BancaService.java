@@ -9,6 +9,12 @@ import org.corso.eccezioni.ContoCorrenteErratoException;
 import org.corso.eccezioni.ErroreInvioEmailException;
 import org.corso.eccezioni.MancanzaFondiException;
 
+
+/**
+ * Classe di servizio dalla quale é possibile aprire un cc, prelevare o versare fondi su un cc.
+ * Invia email di benvenuto al al cliente che apre un cc.
+ *
+ */
 public class BancaService {
 
     private Banca banca;
@@ -33,16 +39,18 @@ public class BancaService {
      * @param valoreIniziale
      */
     public ContoCorrente apriContoCorrente(String nome, String cognome, String codiceFiscale, String indirizzoEmail, int valoreIniziale) throws ErroreInvioEmailException {
-        // l´istanza di cliente si potrebbe creare cosi...(modo classico)
+        // l´istanza di cliente si potrebbe creare cosi...(modo classico e ormai poco comune nel mondo reale)
         Cliente proprietario = new Cliente(nome, cognome, codiceFiscale, indirizzoEmail);
 
-        // ...o meglio cosi: utilizzando un "builder" ovvero una classe preposta a costruire un´altra classe.
-        // solitamente il Builder é una classe interna (inner class) della classe modello.
-        proprietario = new Cliente.ClienteBuilder(codiceFiscale).cognome(cognome).perInviareEmail(indirizzoEmail).build();
+            // ...o meglio cosi: utilizzando un "builder" ovvero una classe preposta
+            // esclusivamente a costruire una istanza. Fa solo quello.
+            // Solitamente il Builder é una classe interna (inner class) della classe per cui genera una istanza.
+            proprietario = new Cliente.ClienteBuilder(codiceFiscale).cognome(cognome).perInviareEmail(indirizzoEmail).build();
 
-        // ...oppure si potrebbe creare il cliente in questo modo specifico nel contesto di una banca
-        proprietario = new Cliente.ClienteBuilder(codiceFiscale).perGestioneBanche(cognome, indirizzoEmail).build();
+            // ...oppure si potrebbe creare il cliente in questo modo specifico nel contesto di una banca
+            proprietario = new Cliente.ClienteBuilder(codiceFiscale).perGestioneBanche(cognome, indirizzoEmail).build();
 
+        // Un altro modo di costruire una istanza; una Factory
         ContoCorrente conto = ContoCorrenteFactory.getInstance(valoreIniziale, proprietario);
         banca.getContiCorrenti().put(conto.getnContoCorrente(), conto);
         if (banca.isNotificaCliente())
@@ -75,8 +83,20 @@ public class BancaService {
         }
     }
 
+
+    /**
+     * effettua il prelievo di denaro e solleva una eccezione se si é raggiunta la soglia massima di saldo corrente.
+     *
+     * @param importo
+     * @param nContoCorrente
+     * @throws ContoCorrenteErratoException
+     */
     public void operaVersamento(int importo, String nContoCorrente) throws ContoCorrenteErratoException {
-        ContoCorrente contoCorrente = banca.getContiCorrenti().get(nContoCorrente);
+        // meglio questa istruzione...
+        ContoCorrente contoCorrente = banca.getContoCorrenteById(nContoCorrente);
+        // ...rispetto a questa. no?
+        contoCorrente = banca.getContiCorrenti().get(nContoCorrente);
+
         if (contoCorrente==null)
             throw new ContoCorrenteErratoException("Il conto corrente con id " + nContoCorrente + " non é corretto");
 
@@ -84,6 +104,10 @@ public class BancaService {
     }
 
 
+    /**
+     * Stampa l´elenco dei cc esistenti
+     *
+     */
     public void stampaConti(){
         for(ContoCorrente cc: banca.getContiCorrenti().values()) {
             if (cc!=null) {

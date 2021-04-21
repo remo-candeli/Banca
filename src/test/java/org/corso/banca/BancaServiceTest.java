@@ -14,6 +14,7 @@ import org.mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
 
 
+
 @RunWith(MockitoJUnitRunner.class)
 public class BancaServiceTest extends TestCase {
 
@@ -36,19 +37,27 @@ public class BancaServiceTest extends TestCase {
     }
 
     @Test
+    public void test() {
+        assertTrue(true);
+    }
+
+    @Test
     public void contoCorrenteValido_apriContoCorrente() throws ErroreInvioEmailException{
-        ContoCorrente cc = new ContoCorrenteRisparmio();
-        cc.setnContoCorrente("cc1");
-        cc.setSaldoIniziale(500);
-        cc.setProprietario(clienteValido);
+        ContoCorrente ccActual;
+        ContoCorrente ccExpected = new ContoCorrenteRisparmio();
+        ccExpected.setnContoCorrente("cc1");
+        ccExpected.setSaldoIniziale(500);
+        ccExpected.setProprietario(clienteValido);
         try (MockedStatic<ContoCorrenteFactory> theMock = Mockito.mockStatic(ContoCorrenteFactory.class)) {
             // x = f(x)  ==== ContoCorrente cc = ContoCorrenteFactory.getInstance()
             //MockedStatic.Verification verification = () -> ContoCorrenteFactory.getInstance(500, clienteValido);
-            theMock.when(() -> ContoCorrenteFactory.getInstance(500, clienteValido)).thenReturn(cc);
+            theMock.when(() -> ContoCorrenteFactory.getInstance(500, clienteValido)).thenReturn(ccExpected);
 
-            ContoCorrente ccActual = bancaService.apriContoCorrente("Remo", "Candeli", "CNDRME70R11H501G", "remo.candeli@gmail.com", 500);
-            assertEquals(cc, ccActual);
+            ccActual = bancaService.apriContoCorrente("Remo", "Candeli", "CNDRME70R11H501G",
+                    "remo.candeli@gmail.com", 500);
         }
+        assertEquals(ccExpected, ccActual);
+        assertNotNull(ccActual);
     }
 
 

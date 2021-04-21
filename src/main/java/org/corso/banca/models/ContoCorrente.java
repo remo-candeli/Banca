@@ -13,6 +13,41 @@ public abstract class ContoCorrente implements Gratificabile {
     private Cliente proprietario;
 
 
+    /**
+     * esegue il prelievo effettivo per l'importo richiesto.
+     * Eccezione se superata la soglia massima di saldo corrente del conto.
+     *
+     * @param importo
+     * @throws MancanzaFondiException
+     */
+    public void prelievo(int importo) throws MancanzaFondiException {
+        if (Math.abs(saldoCorrente - importo) <= soglia) {
+            this.saldoCorrente -= importo;
+        }else{
+            throw new MancanzaFondiException("Il Cliente " + this.proprietario.getCognome() +
+                                            " ha provato a prelevare " +  importo +
+                                            " oltre la soglia massima di " + soglia);
+        }
+    }
+
+
+    /**
+     * effettua un versamento del valore richiesto sul cc.
+     * Verifica se é possibile aggiungere una ulteriore somma di denaro di bonus determinata in base alla tipologia di conto.
+     *
+     * @param importo
+     */
+    public void versamento(int importo) {
+        this.saldoCorrente += importo;
+        int saldoDopoCalcoloBonus = calcolaBonus();
+        if (saldoDopoCalcoloBonus > this.saldoCorrente) {
+            System.out.println("    Il cliente " + proprietario.getCognome() + " ha ottenuto un bonus di " + (saldoDopoCalcoloBonus - saldoCorrente) + " euro");
+        }
+        this.saldoCorrente = saldoDopoCalcoloBonus;
+    }
+
+
+
     public String getnContoCorrente() {
         return nContoCorrente;
     }
@@ -40,23 +75,6 @@ public abstract class ContoCorrente implements Gratificabile {
 
     public int getSaldoCorrente() {
         return saldoCorrente;
-    }
-
-    public void prelievo(int importo) throws MancanzaFondiException {
-        if (Math.abs(saldoCorrente - importo) <= soglia) {
-            this.saldoCorrente -= importo;
-        }else{
-            throw new MancanzaFondiException("Il Cliente " + this.proprietario.getCognome() + " ha provato a prelevare " +  importo);
-        }
-    }
-
-    public void versamento(int importo) {
-        this.saldoCorrente += importo;
-        int saldoDopoCalcoloBonus = calcolaBonus();
-        if (saldoDopoCalcoloBonus > this.saldoCorrente) {
-            System.out.println("    Il cliente " + proprietario.getCognome() + " ha ottenuto un bonus di " + (saldoDopoCalcoloBonus - saldoCorrente) + " euro");
-        }
-        this.saldoCorrente = saldoDopoCalcoloBonus;
     }
 
     public Cliente getProprietario() {

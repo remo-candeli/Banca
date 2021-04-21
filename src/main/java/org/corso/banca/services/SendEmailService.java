@@ -12,15 +12,24 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 /**
+ * Invia una email ad un destinatario.
+ * Il la password per autenticarsi ad un SMTP é prelevata (per questioni di sicurezza)
+ * da una variabile di ambiente (emailPassword) definita nel sistema di esecuzione.
+ * Non é dunque visibile neanche dal programmatore!
+ *
  */
 public class SendEmailService {
 
+
     /**
+     * Se la password di autenticazione allo SMTP non é definita il sistema non tenta di inviare l'email.
+     *
+     * @param indirizzoEmailDestinatario
+     * @throws ErroreInvioEmailException
      */
     public void sendEmail(String indirizzoEmailDestinatario) throws ErroreInvioEmailException {
         if (indirizzoEmailDestinatario==null)
             throw new ErroreInvioEmailException("Indirizzo destinatario nullo");
-        Properties systemProps = System.getProperties();
         String username = "remo.candeli@gmail.com";
         String passowrd = System.getenv("emailPassword");
         if (passowrd==null)

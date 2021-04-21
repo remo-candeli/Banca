@@ -30,7 +30,7 @@ public class BancaServiceTest extends TestCase {
 
     @Before
     public void setup() {
-        banca = new Banca("banca", "55504");
+        banca = new Banca("banca", "55504", "xxx@yyy.it");
         clienteValido = new Cliente("Remo", "Candeli", "CNDRME70R11H501G", "remo.candeli@gmail.com");
         bancaService = new BancaService(banca);
         MockitoAnnotations.openMocks(this);

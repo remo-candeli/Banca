@@ -7,7 +7,7 @@ import org.corso.eccezioni.ErroreInvioEmailException;
 
 public class Main {
     public static void main(String[] args) {
-        Banca banca = new Banca("Banca di Latina", "000313");
+        Banca banca = new Banca("Banca di Latina", "000313", "vostroIndirizzo@Email");
         BancaService bancaService = new BancaService(banca);
 
         try {

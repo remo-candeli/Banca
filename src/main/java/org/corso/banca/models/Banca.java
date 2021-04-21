@@ -9,13 +9,15 @@ public class Banca {
     private String nome;
     private String codiceABI;
     private boolean notificaCliente;
+    private String indirizzoEmailBanca;
 
 
-    public Banca(String nome, String codiceABI) {
+    public Banca(String nome, String codiceABI, String indirizzoEmailBanca) {
         this.contiCorrenti = new HashMap<>();
         this.nome = nome;
         this.codiceABI = codiceABI;
         this.notificaCliente = false;
+        this.indirizzoEmailBanca = indirizzoEmailBanca;
     }
 
     public String getNome() {
@@ -48,5 +50,9 @@ public class Banca {
 
     public ContoCorrente getContoCorrenteById(String nContoCorrente) {
         return contiCorrenti.get(nContoCorrente);
+    }
+
+    public String getIndirizzoEmailBanca() {
+        return indirizzoEmailBanca;
     }
 }

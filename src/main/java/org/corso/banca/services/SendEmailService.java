@@ -27,10 +27,10 @@ public class SendEmailService {
      * @param indirizzoEmailDestinatario
      * @throws ErroreInvioEmailException
      */
-    public void sendEmail(String indirizzoEmailDestinatario) throws ErroreInvioEmailException {
+    public void sendEmail(String indirizzoEmailDestinatario, String indirizzoEmailMittente) throws ErroreInvioEmailException {
         if (indirizzoEmailDestinatario==null)
             throw new ErroreInvioEmailException("Indirizzo destinatario nullo");
-        String username = "remo.candeli@gmail.com";
+        String username = indirizzoEmailMittente;
         String passowrd = System.getenv("emailPassword");
         if (passowrd==null)
             return;

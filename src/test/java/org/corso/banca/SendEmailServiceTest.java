@@ -15,7 +15,7 @@ public class SendEmailServiceTest extends TestCase {
     @Test(expected = ErroreInvioEmailException.class)
     public void eccezioneSeIndirizzoEmailNullo_sendEmail() throws ErroreInvioEmailException {
         SendEmailService sendEmailService = new SendEmailService();
-        sendEmailService.sendEmail(null);
+        sendEmailService.sendEmail(null, null);
     }
 
 }

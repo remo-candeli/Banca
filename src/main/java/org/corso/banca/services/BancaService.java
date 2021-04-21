@@ -54,7 +54,7 @@ public class BancaService {
         ContoCorrente conto = ContoCorrenteFactory.getInstance(valoreIniziale, proprietario);
         banca.getContiCorrenti().put(conto.getnContoCorrente(), conto);
         if (banca.isNotificaCliente())
-            sendEmailService.sendEmail(indirizzoEmail);
+            sendEmailService.sendEmail(indirizzoEmail, banca.getIndirizzoEmailBanca());
 
         return conto;
     }

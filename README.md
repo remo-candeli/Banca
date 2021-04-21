@@ -19,6 +19,8 @@ da linea di comandi
 **sudo nano /etc/environment**  
 aggiungere la seguente riga
 **emailPassword = [password-gmail]**  
-(dove [password-gmail] é la volstra passsord.  
+_(dove [password-gmail] é la volstra passsord)_  
+
 salvare con CTRL + X e confermare le modifiche.  
+
 Riavviare il pc.  

@@ -1,18 +1,24 @@
-## Getting Started
+## Invio Email
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+La classe SendEmailService é piuttosto semplice ed é in grado di inviare email solo tramite google.
+Ció vuol dire che occorre avere una casella postale google.
+Le credenziali necessarie per accedere all´SMTP di google sono username e password.
+Sono le stesse credenziali che si utilizzano per accedere a gmail.
 
-## Folder Structure
+Lo username é ricavato dall'attributo di classe *indirizzoEmailBanca* valorizzabile nel costruttore della classe Banca.
+La password, invece, per motivi di sicurezza, deve essere definita in una variabile di ambiente del sistema.
+Il nome di questa variabile di ambiente a cui associare la password é *emailPassword*.
 
-The workspace contains two folders by default, where:
+### Assegnazione di una Variabile di ambiente in Windows
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+Seguire le indicazioni espresse in questo link: https://www.netcwork.it/come-creare-una-variabile-di-ambiente/
 
-## Dependency Management
+### Assegnazione di una Variabile di ambiente linux
 
-The `JAVA DEPENDENCIES` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-pack/blob/master/release-notes/v0.9.0.md#work-with-jar-files-directly).
-
-
-aggiunta modifica
-aggiunta modifica 2
+da linea di comandi
+**sudo nano /etc/environment**
+aggiungere la seguente riga
+**emailPassword = [password-gmail]**
+(dove [password-gmail] é la volstra passsord
+salvare con CTRL + X e confermare le modifiche.
+Riavviare il pc.
